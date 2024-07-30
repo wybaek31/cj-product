@@ -1,0 +1,4 @@
+### 상품 재고 조회.
+GET http://localhost:8080/product/api/stock/v1/40164991
+Content-Type: application/json
+

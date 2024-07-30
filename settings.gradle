@@ -1,0 +1,3 @@
+rootProject.name = 'cj-product'
+include 'cj-product-core'
+include 'cj-product-api'
