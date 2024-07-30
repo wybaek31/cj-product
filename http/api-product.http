@@ -2,3 +2,7 @@
 GET http://localhost:8080/product/api/stock/v1/40164991
 Content-Type: application/json
 
+### 상품 재고 차감.
+POST http://localhost:8080/product/api/stock/v1/40164991/decrease?quantity=1
+Content-Type: application/json
+

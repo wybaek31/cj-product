@@ -40,13 +40,6 @@ public class Product extends CommonEntity {
         this.updUser = regUser;
     }
 
-    public Product(String productName, int quantity, String regUser) {
-        this.productName = productName;
-        this.quantity = quantity;
-        this.regUser = regUser;
-        this.updUser = regUser;
-    }
-
     /**
      * 재고 차감.
      * @param quantity

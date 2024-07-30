@@ -1,6 +1,8 @@
 package com.cj.product.api.product.service;
 
 import com.cj.product.core.domain.product.Product;
+import com.cj.product.core.domain.product.ProductInfo;
+import com.cj.product.core.mapper.ProductObjectMapper;
 import com.cj.product.core.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,13 +16,20 @@ import org.springframework.transaction.annotation.Transactional;
 public class ProductApiService {
 
     private final ProductRepository productRepository;
+    private final ProductObjectMapper productObjectMapper;
 
-    public Product getProductStock(Long productId) {
-        return productRepository.findById(productId).orElseThrow();
+    /**
+     * 상품 재고 조회.
+     * @param productId
+     * @return
+     */
+    public ProductInfo getProductStock(Long productId) {
+        Product product = productRepository.findById(productId).orElseThrow();
+        return productObjectMapper.toProductInfo(product);
     }
 
     /**
-     * 재고 감소
+     * 상품 재고 감소.
      * @param id
      * @param quantity
      */
