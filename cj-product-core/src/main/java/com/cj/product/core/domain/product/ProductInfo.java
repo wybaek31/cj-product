@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class ProductInfo {
-    private Long id;
+    private Long productId;
     private String productName;
     private int quantity;
     private String regUser;

@@ -1,4 +1,4 @@
-package com.cj.product.api.product.facade;
+package com.cj.product.api.stock.facade;
 
 import com.cj.product.core.domain.product.Product;
 import com.cj.product.core.repository.ProductRepository;
@@ -17,22 +17,22 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @ActiveProfiles("local")
 @SpringBootTest
-class ProductApiFacadeTest {
+class ProductStockApiFacadeTest {
 
     @Autowired
-    private ProductApiFacade productApiFacade;
+    private ProductStockApiFacade productStockApiFacade;
 
     @Autowired
     private ProductRepository productRepository;
 
     @BeforeEach
-    public void insert() {
+    public void before() {
         Product product = new Product(1L, "상품 1", 100, "wooyoung");
-        productRepository.saveAndFlush(product);
+        productRepository.save(product);
     }
 
     @AfterEach
-    public void delete() {
+    public void after() {
         productRepository.deleteAll();
     }
 
@@ -45,7 +45,7 @@ class ProductApiFacadeTest {
         for (int i = 0; i < threadCount; i++) {
             executorService.submit(() -> {
                 try {
-                    productApiFacade.decreaseStock(1L, 1);
+                    productStockApiFacade.decreaseStock(1L, 1);
                 } finally {
                     latch.countDown();
                 }

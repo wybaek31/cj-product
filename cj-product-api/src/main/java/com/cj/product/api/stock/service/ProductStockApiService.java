@@ -1,4 +1,4 @@
-package com.cj.product.api.product.service;
+package com.cj.product.api.stock.service;
 
 import com.cj.product.core.domain.product.Product;
 import com.cj.product.core.domain.product.ProductInfo;
@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 @RequiredArgsConstructor
 @Service
-public class ProductApiService {
+public class ProductStockApiService {
 
     private final ProductRepository productRepository;
     private final ProductObjectMapper productObjectMapper;
@@ -24,8 +24,8 @@ public class ProductApiService {
      * @return
      */
     public ProductInfo getProductStock(Long productId) {
-        Product product = productRepository.findById(productId).orElseThrow();
-        return productObjectMapper.toProductInfo(product);
+        Product product = productRepository.findById(productId).orElse(null);
+        return product != null ? productObjectMapper.toProductInfo(product) : null;
     }
 
     /**

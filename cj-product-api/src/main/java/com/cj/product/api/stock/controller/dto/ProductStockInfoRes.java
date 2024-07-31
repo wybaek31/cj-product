@@ -1,8 +1,10 @@
-package com.cj.product.api.product.controller.dto;
+package com.cj.product.api.stock.controller.dto;
 
-import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
-@Builder
+@Getter
+@Setter
 public class ProductStockInfoRes {
     private Long productId;
     private String productName;

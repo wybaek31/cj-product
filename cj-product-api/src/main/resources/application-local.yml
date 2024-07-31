@@ -14,10 +14,10 @@ spring:
         format_sql: true
         show_sql: true
 
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
   data:
     redis:
       port: 6379

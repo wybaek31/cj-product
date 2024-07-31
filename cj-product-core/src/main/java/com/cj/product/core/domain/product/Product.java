@@ -18,7 +18,7 @@ public class Product extends CommonEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "PRODUCT_ID")
-    private Long id;
+    private Long productId;
 
     @Column(name = "PRODUCT_NAME")
     private String productName;
@@ -33,7 +33,7 @@ public class Product extends CommonEntity {
     private String updUser;
 
     public Product(Long productId, String productName, int quantity, String regUser) {
-        this.id = productId;
+        this.productId = productId;
         this.productName = productName;
         this.quantity = quantity;
         this.regUser = regUser;

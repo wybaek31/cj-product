@@ -1,4 +1,4 @@
-package com.cj.product.api.product.service;
+package com.cj.product.api.stock.service;
 
 import com.cj.product.core.domain.product.Product;
 import com.cj.product.core.repository.ProductRepository;
@@ -9,18 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 @ActiveProfiles("local")
 @SpringBootTest
-class ProductApiServiceTest {
+class ProductStockApiServiceTest {
 
     @Autowired
-    private ProductApiService productApiService;
+    private ProductStockApiService productStockApiService;
 
     @Autowired
     private ProductRepository productRepository;
@@ -39,7 +35,7 @@ class ProductApiServiceTest {
     @Test
     public void decrease_test() {
         // given
-        productApiService.decreaseStock(1L, 1);
+        productStockApiService.decreaseStock(1L, 1);
 
         // when
         Product product = productRepository.findById(1L).orElseThrow();

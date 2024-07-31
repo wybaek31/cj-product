@@ -1,6 +1,6 @@
-package com.cj.product.api.product.mapper;
+package com.cj.product.api.stock.mapper;
 
-import com.cj.product.api.product.controller.dto.ProductStockInfoRes;
+import com.cj.product.api.stock.controller.dto.ProductStockInfoRes;
 import com.cj.product.core.domain.product.ProductInfo;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
@@ -12,7 +12,7 @@ import org.mapstruct.ReportingPolicy;
         injectionStrategy = InjectionStrategy.CONSTRUCTOR,
         unmappedTargetPolicy = ReportingPolicy.ERROR
 )
-public interface ProductApiObjectMapper {
-    @Mapping(target = "productId", source = "id")
+public interface ProductStockApiObjectMapper {
+    @Mapping(target = "productId", source = "productId")
     ProductStockInfoRes toProductStockInfoRes(ProductInfo productInfo);
 }

@@ -7,9 +7,7 @@
 ## 빌드 및 실행
 
   - IDE : IntelliJ IDEA
-    - Settings > Build, Execution, Deployment > Build Tools > Gradle
-        - `Build and run using` 및 `Run tests using` 을 `IntellJ IDEA` 로 설정
-    - Run > Run Configuration >Active Profile : local
+    - Run > Run Configuration > Active Profile : local
 
 
   - 실행 테스트를 위한 테스트 요청 정보는 /http/cj-product.http 파일을 참고하세요.
@@ -17,8 +15,7 @@
 
   - Swagger 문서
     - Annotation으로 작성
-        - URL : `{domain}/swagger-ui/index.html`
-            - local 및 dev 환경에서만 접근 가능
+        - URL : `http://localhost:8080/swagger-ui/index.html`
 
 
   - Sample Data

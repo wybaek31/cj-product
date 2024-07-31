@@ -1,13 +1,13 @@
-package com.cj.product.api.product.mapper;
+package com.cj.product.api.stock.mapper;
 
-import com.cj.product.api.product.controller.dto.ProductStockInfoRes;
+import com.cj.product.api.stock.controller.dto.ProductStockInfoRes;
 import com.cj.product.core.domain.product.ProductInfo;
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-07-30T22:52:05+0900",
+    date = "2024-07-31T11:18:21+0900",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 21.0.4 (Amazon.com Inc.)"
 )
 @Component
