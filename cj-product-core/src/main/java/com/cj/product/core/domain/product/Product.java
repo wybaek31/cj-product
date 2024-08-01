@@ -51,4 +51,12 @@ public class Product extends CommonEntity {
         this.quantity -= quantity;
     }
 
+    /**
+     * 재고 증가.
+     * @param quantity
+     */
+    public void increaseStock(int quantity) {
+        this.quantity += quantity;
+    }
+
 }

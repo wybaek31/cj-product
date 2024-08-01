@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import java.util.concurrent.TimeUnit;
 
 import static com.cj.product.core.constants.CoreConstants.REDIS_LOCK_PRODUCT_KEY;
+import static com.cj.product.core.constants.CoreConstants.STOCK_CHANGE_DECREASE_MAX_COUNT;
 import static com.cj.product.core.response.ErrorCode.*;
 
 @Slf4j
@@ -40,7 +41,15 @@ public class ProductStockApiFacade {
      * @param productId
      * @param quantity
      */
-    public void decreaseStock(Long productId, int quantity) {
+    public ProductStockInfoRes decreaseStock(Long productId, int quantity) {
+        // Step 0. 재고 차감 수량 유효성 검사.
+        if (quantity <= 0) {
+            throw new BaseException(ERROR_INVALID_QUANTITY);
+        }
+        if (quantity > STOCK_CHANGE_DECREASE_MAX_COUNT) {
+            throw new BaseException(ERROR_INVALID_DECREASE_QUANTITY);
+        }
+
         // Step 1. 상품 유효성 검사.
         ProductInfo productInfo = productStockApiService.getProductStock(productId);
         if (productInfo == null) {
@@ -54,13 +63,13 @@ public class ProductStockApiFacade {
         // Step 2. 상품 재고 차감 Lock.
         RLock lock = redissonClient.getLock(REDIS_LOCK_PRODUCT_KEY + productId);
         try {
-            boolean isLocked = lock.tryLock(10, 5, TimeUnit.SECONDS);
-
-            if (!isLocked) {
+            if (!lock.tryLock(10, 5, TimeUnit.SECONDS)) {
                 throw new BaseException(COMMON_REDIS_LOCK_ERROR);
             }
+
             // Step 3. 상품 재고 차감.
-            productStockApiService.decreaseStock(productId, quantity);
+            ProductInfo updatedProductInfo = productStockApiService.decreaseStock(productId, quantity);
+            return productStockApiObjectMapper.toProductStockInfoRes(updatedProductInfo);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
             throw new RuntimeException("Lock interrupted", e);
@@ -68,4 +77,5 @@ public class ProductStockApiFacade {
             lock.unlock();
         }
     }
+
 }

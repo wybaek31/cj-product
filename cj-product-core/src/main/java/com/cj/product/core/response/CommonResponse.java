@@ -17,28 +17,28 @@ public class CommonResponse<T> {
     private int errorCode;
     private String message;
 
+    public static <T> CommonResponse<T> success(T data) {
+        return success(data, null);
+    }
+
     public static <T> CommonResponse<T> success(T data, String message) {
-        return (CommonResponse<T>) CommonResponse.builder()
+        return CommonResponse.<T>builder()
                 .result(Result.SUCCESS)
                 .data(data)
                 .message(message)
                 .build();
     }
 
-    public static <T> CommonResponse<T> success(T data) {
-        return success(data, null);
-    }
-
-    public static CommonResponse fail(int errorCode, String message) {
-        return CommonResponse.builder()
+    public static <T> CommonResponse<T> fail(int errorCode, String message) {
+        return CommonResponse.<T>builder()
                 .result(Result.FAIL)
                 .errorCode(errorCode)
                 .message(message)
                 .build();
     }
 
-    public static CommonResponse fail(ErrorCode errorCode) {
-        return CommonResponse.builder()
+    public static <T> CommonResponse<T> fail(ErrorCode errorCode) {
+        return CommonResponse.<T>builder()
                 .result(Result.FAIL)
                 .errorCode(errorCode.getErrorCode())
                 .message(errorCode.getErrorMsg())

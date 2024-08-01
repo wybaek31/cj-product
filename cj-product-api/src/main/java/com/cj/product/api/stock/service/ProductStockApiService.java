@@ -7,7 +7,6 @@ import com.cj.product.core.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
@@ -24,8 +23,9 @@ public class ProductStockApiService {
      * @return
      */
     public ProductInfo getProductStock(Long productId) {
-        Product product = productRepository.findById(productId).orElse(null);
-        return product != null ? productObjectMapper.toProductInfo(product) : null;
+        return productRepository.findById(productId)
+                .map(productObjectMapper::toProductInfo)
+                .orElse(null);
     }
 
     /**
@@ -33,10 +33,28 @@ public class ProductStockApiService {
      * @param id
      * @param quantity
      */
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void decreaseStock(Long id, int quantity) {
-        Product product = productRepository.findById(id).orElseThrow();
+    @Transactional
+    public ProductInfo decreaseStock(Long productId, int quantity) {
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid product ID: " + productId));
+
         product.decreaseStock(quantity);
-        productRepository.saveAndFlush(product);
+        Product savedProduct = productRepository.saveAndFlush(product);
+
+        return productObjectMapper.toProductInfo(savedProduct);
+    }
+
+    /**
+     * 상품 재고 증가.
+     */
+    @Transactional
+    public ProductInfo increaseStock(Long productId, int quantity) {
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid product ID: " + productId));
+
+        product.increaseStock(quantity);
+        Product savedProduct = productRepository.saveAndFlush(product);
+
+        return productObjectMapper.toProductInfo(savedProduct);
     }
 }

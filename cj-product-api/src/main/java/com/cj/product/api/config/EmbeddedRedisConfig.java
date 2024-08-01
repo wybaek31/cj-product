@@ -23,49 +23,51 @@ public class EmbeddedRedisConfig {
     private RedisServer redisServer;
 
     @PostConstruct
-    private void start() throws IOException {
-        int port = isRedisRunning() ? findAvailablePort() : redisPort;
-        redisServer = new RedisServer(port);
-        redisServer.start();
+    public void startRedisServer() {
+        try {
+            int port = isRedisRunning(redisPort) ? findAvailablePort() : redisPort;
+            redisServer = new RedisServer(port);
+            redisServer.start();
+            log.info("Embedded Redis started at port: {}", port);
+        } catch (IOException e) {
+            log.error("Failed to start embedded Redis", e);
+        }
     }
 
     @PreDestroy
-    private void stop() throws IOException {
+    public void stopRedisServer() throws IOException {
         if (redisServer != null) {
             redisServer.stop();
+            log.info("Embedded Redis stopped");
         }
     }
 
-    private boolean isRedisRunning() throws IOException {
-        return isRunning(executeGrepProcessCommand(redisPort));
+    private boolean isRedisRunning(int port) throws IOException {
+        Process process = executeGrepProcessCommand(port);
+        return isRunning(process);
     }
 
-    public int findAvailablePort() throws IOException {
+    private int findAvailablePort() throws IOException {
         for (int port = 10000; port <= 65535; port++) {
-            Process process = executeGrepProcessCommand(port);
-            if (!isRunning(process)) {
+            if (!isRunning(executeGrepProcessCommand(port))) {
                 return port;
             }
         }
-        throw new IllegalArgumentException("Not Found Available port: 10000 ~ 65535");
+        throw new IllegalStateException("No available port found between 10000 and 65535");
     }
 
     private Process executeGrepProcessCommand(int port) throws IOException {
-        String command = String.format("netstat -nat | grep LISTEN|grep %d", port);
+        String command = String.format("netstat -nat | grep LISTEN | grep %d", port);
         String[] shell = {"/bin/sh", "-c", command};
         return Runtime.getRuntime().exec(shell);
     }
 
     private boolean isRunning(Process process) {
-        String line;
-        StringBuilder pidInfo = new StringBuilder();
         try (BufferedReader input = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
-            while ((line = input.readLine()) != null) {
-                pidInfo.append(line);
-            }
-        } catch (Exception e) {
-            log.error(e.getMessage());
+            return input.lines().anyMatch(line -> !line.isEmpty());
+        } catch (IOException e) {
+            log.error("Error checking if Redis is running", e);
+            return false;
         }
-        return !pidInfo.isEmpty();
     }
 }

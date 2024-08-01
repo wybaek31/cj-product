@@ -29,10 +29,9 @@ public class ProductStockApiController {
     @Operation(summary = "상품의 재고 차감 API",
             description = "상품의 재고를 차감하는 API 입니다. 호출시 상품ID와 차감할 수량을 확인해 주세요.")
     @PatchMapping(value = "/v1/{productId}/stock", produces = "application/json")
-    public CommonResponse<String> decreaseStock(@PathVariable("productId") Long productId,
+    public CommonResponse<ProductStockInfoRes> decreaseStock(@PathVariable("productId") Long productId,
                                                 @RequestBody ProductStockUpdateReq request) {
-        productStockApiFacade.decreaseStock(productId, request.getQuantity());
-        return CommonResponse.success("Success");
+        return CommonResponse.success(productStockApiFacade.decreaseStock(productId, request.getQuantity()));
     }
 
 }
