@@ -23,7 +23,7 @@ class ProductStockApiServiceTest {
 
     @BeforeEach
     public void insert() {
-        Product product = new Product(1L, "상품 1", 100, "wooyoung");
+        Product product = new Product(1L, "상품 1", 100, 5,"wooyoung");
         productRepository.saveAndFlush(product);
     }
 

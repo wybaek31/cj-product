@@ -13,7 +13,7 @@ public enum ErrorCode {
     ERROR_OUT_OF_STOCK(30001, "상품의 재고가 부족합니다."),
     ERROR_PRODUCT_NOT_FOUND(30002, "해당 상품 정보가 없습니다."),
     ERROR_INVALID_QUANTITY(30003, "요청한 수량이 올바르지 않습니다."),
-    ERROR_INVALID_DECREASE_QUANTITY(30004, "재고 차감 수량이 올바르지 않습니다.(max 초과)"),
+    ERROR_INVALID_MAX_ORDER_QUANTITY(30004, "재고 차감 수량이 올바르지 않습니다.(max 초과)"),
 
     ;
 

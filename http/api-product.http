@@ -7,5 +7,5 @@ PATCH http://localhost:8080/product/api/stock/v1/40164991/stock
 Content-Type: application/json
 
 {
-  "quantity": 1
+  "quantity": 15
 }

@@ -27,7 +27,7 @@ class ProductStockApiFacadeTest {
 
     @BeforeEach
     public void before() {
-        Product product = new Product(1L, "상품 1", 100, "wooyoung");
+        Product product = new Product(1L, "상품 1", 100, 5,"wooyoung");
         productRepository.save(product);
     }
 

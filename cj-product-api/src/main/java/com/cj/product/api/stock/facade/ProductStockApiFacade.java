@@ -14,7 +14,6 @@ import org.springframework.stereotype.Component;
 import java.util.concurrent.TimeUnit;
 
 import static com.cj.product.core.constants.CoreConstants.REDIS_LOCK_PRODUCT_KEY;
-import static com.cj.product.core.constants.CoreConstants.STOCK_CHANGE_DECREASE_MAX_COUNT;
 import static com.cj.product.core.response.ErrorCode.*;
 
 @Slf4j
@@ -46,9 +45,7 @@ public class ProductStockApiFacade {
         if (quantity <= 0) {
             throw new BaseException(ERROR_INVALID_QUANTITY);
         }
-        if (quantity > STOCK_CHANGE_DECREASE_MAX_COUNT) {
-            throw new BaseException(ERROR_INVALID_DECREASE_QUANTITY);
-        }
+
 
         // Step 1. 상품 유효성 검사.
         ProductInfo productInfo = productStockApiService.getProductStock(productId);
@@ -56,6 +53,12 @@ public class ProductStockApiFacade {
             throw new BaseException(ERROR_PRODUCT_NOT_FOUND);
         }
 
+        // Step 1-1. 최대 주문 수량 유효성 검사.
+        if (productInfo.getMaxOrderQuantity() < quantity) {
+            throw new BaseException(ERROR_INVALID_MAX_ORDER_QUANTITY);
+        }
+
+        // Step 1-2. 재고 수량 유효성 검사.
         if (productInfo.getQuantity() < quantity) {
             throw new BaseException(ERROR_OUT_OF_STOCK);
         }

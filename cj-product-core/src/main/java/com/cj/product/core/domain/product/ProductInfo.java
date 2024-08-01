@@ -11,6 +11,7 @@ public class ProductInfo {
     private Long productId;
     private String productName;
     private int quantity;
+    private int maxOrderQuantity;
     private String regUser;
     private LocalDateTime regDate;
     private String updUser;

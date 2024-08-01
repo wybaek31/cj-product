@@ -26,16 +26,20 @@ public class Product extends CommonEntity {
     @Column(name = "QUANTITY")
     private int quantity;
 
+    @Column(name = "MAX_ORDER_QUANTITY")
+    private int maxOrderQuantity;
+
     @Column(name = "REG_USER")
     private String regUser;
 
     @Column(name = "UPD_USER")
     private String updUser;
 
-    public Product(Long productId, String productName, int quantity, String regUser) {
+    public Product(Long productId, String productName, int quantity, int maxOrderQuantity, String regUser) {
         this.productId = productId;
         this.productName = productName;
         this.quantity = quantity;
+        this.maxOrderQuantity = maxOrderQuantity;
         this.regUser = regUser;
         this.updUser = regUser;
     }
